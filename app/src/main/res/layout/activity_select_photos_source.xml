@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/select_photos_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Source" />
+
+    <Button
+        android:id="@+id/take_photo"
+        android:text="Take Photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="takePhoto"/>
+    <Button
+        android:id="@+id/photo_archive"
+        android:text="Photo Archive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="takePhotoFromArchive"/>
+
+</LinearLayout>

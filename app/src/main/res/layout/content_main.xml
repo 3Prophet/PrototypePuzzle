@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+    <Button
+        android:id="@+id/play"
+        android:text="Play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="playGame"/>
+    <Button
+        android:id="@+id/add_photo"
+        android:text="Add Photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addPhoto"/>
+    <Button
+        android:id="@+id/edit_existing_photos"
+        android:text="Edit Existing Photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="editPhotos"/>
+
+    <!--
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/puzzle_view"
+        /> -->
+
+</LinearLayout>
+
+
+
+
+
+
