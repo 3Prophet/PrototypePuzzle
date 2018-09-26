@@ -16,7 +16,6 @@ public class Puzzle {
     private final Bitmap image;
     private ArrayList<Integer> shuffledIndices;
     private ArrayList<Tile> solution;
-    private ArrayList<Tile> placedTiles;
 
     private ArrayList<Tile> randomizedTiles;
 
@@ -24,19 +23,11 @@ public class Puzzle {
         this.rows = rows;
         this.columns = columns;
         this.image = image;
-        createNulledPlacedTiles();
         createNulledRandomizedTiles();
         this.solution = new ArrayList<>();
         this.shuffledIndices = new ArrayList<>();
         createShuffledArray();
         createPuzzleFromImage();
-    }
-
-    private void createNulledPlacedTiles() {
-        placedTiles = new ArrayList<>();
-        for (int i = 0; i < getNrOfTiles(); i++) {
-            placedTiles.add(i, null);
-        }
     }
 
     private void createNulledRandomizedTiles() {
@@ -52,26 +43,17 @@ public class Puzzle {
 
     private void createPuzzleFromImage() {
         ApplicationFactory factory = ApplicationFactory.getApplicationFactory();
-        //factory.setRows(rows);
-        //factory.setColumns(columns);
         ImageSplitter splitter = factory.getImageSplitter();
         ArrayList<Bitmap> imagePieces = splitter.splitImage(image);
         for (int index = 0; index < getNrOfTiles(); index++) {
             Tile tile = new Tile(imagePieces.get(index), index);
             solution.add(index, tile);
-
             randomizedTiles.set(shuffledIndices.get(index), tile);
         }
     }
 
-    public void placeTile(int indexInRandomized, int positionIndex) throws IllegalStateException {
-        Tile tile = randomizedTiles.get(indexInRandomized);
-       // if (tile.isCorrectPosition(positionIndex)) {
-            placedTiles.set(positionIndex, tile);
-            randomizedTiles.set(indexInRandomized, null);
-        //} else {
-        //    throw new IllegalStateException("False position of a tile.");
-        //}
+    public void swapTiles(int firstIndex, int secondIndex) {
+        Collections.swap(randomizedTiles, firstIndex, secondIndex);
     }
 
     private void createShuffledArray() {
@@ -82,12 +64,13 @@ public class Puzzle {
     }
 
     public boolean isAssembled() {
-        for (int index = 0; index < getNrOfTiles(); index++) {
-            if (placedTiles.get(index) == null) {
-                return false;
+        boolean isAssembled = true;
+        for (int i = 0; i < randomizedTiles.size(); i++ ) {
+            if (randomizedTiles.get(i).getIndex() != i ) {
+                isAssembled = false;
             }
         }
-        return true;
+        return isAssembled;
     }
 
     public ArrayList<Tile> getRandomizedTiles() {

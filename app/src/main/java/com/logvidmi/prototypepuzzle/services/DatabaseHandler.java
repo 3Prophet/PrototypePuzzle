@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Database handler to insert/read images to/from SQLite database.
+ */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;

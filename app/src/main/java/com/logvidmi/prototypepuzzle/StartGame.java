@@ -15,7 +15,6 @@ import com.logvidmi.prototypepuzzle.setup.ApplicationFactory;
 import com.logvidmi.prototypepuzzle.utils.GestureDetectGridView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class StartGame extends AppCompatActivity {
 
@@ -152,7 +151,7 @@ public class StartGame extends AppCompatActivity {
         tileList[currentPosition] = newPosition;
          */
 
-        puzzle.placeTile(currentPosition, currentPosition + swap);
+        puzzle.swapTiles(currentPosition, currentPosition + swap);
 
         display(context);
 

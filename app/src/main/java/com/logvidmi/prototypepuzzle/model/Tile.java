@@ -46,4 +46,8 @@ public class Tile {
     public static int getTileHeight() {
         return tileHeight;
     }
+
+    public int getIndex() {
+        return index;
+    }
 }
