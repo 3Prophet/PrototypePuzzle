@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Prototype Puzzle</string>
     <string name="action_settings">Settings</string>
+    <string name="delete_button">Delete</string>
+    <string name="play_button">Play</string>
+    <string name="add_photos_button">Add Photos</string>
+    <string name="edit_existing_photos_button">Edit Existing Photos</string>
 </resources>

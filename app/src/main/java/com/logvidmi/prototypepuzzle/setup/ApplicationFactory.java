@@ -1,9 +1,11 @@
 package com.logvidmi.prototypepuzzle.setup;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.logvidmi.prototypepuzzle.R;
 import com.logvidmi.prototypepuzzle.model.Puzzle;
+import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 import com.logvidmi.prototypepuzzle.services.ImageSplitter;
 
 import java.util.ArrayList;

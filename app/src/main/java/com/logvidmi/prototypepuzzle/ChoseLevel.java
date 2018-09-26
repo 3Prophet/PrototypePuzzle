@@ -14,10 +14,10 @@ public class ChoseLevel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chose_level);
-        attachControllers();
+        setControllers();
     }
 
-    private void attachControllers() {
+    private void setControllers() {
         Button easyButton = (Button) findViewById(R.id.easy);
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override

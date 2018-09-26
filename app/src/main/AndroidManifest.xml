@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.logvidmi.prototypepuzzle">
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +23,8 @@
         <activity android:name=".SelectPhotosSource" />
         <activity android:name=".GameActivity" />
         <activity android:name=".StartGame" />
-        <activity android:name=".ChooseImageForPuzzle"></activity>
+        <activity android:name=".ChooseImageForPuzzle" />
+        <activity android:name=".EditPhotosActiviy"></activity>
     </application>
 
 </manifest>

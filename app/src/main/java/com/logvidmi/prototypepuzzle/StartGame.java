@@ -33,17 +33,11 @@ public class StartGame extends AppCompatActivity {
 
     private static Puzzle puzzle;
 
-    // private static String[] tileList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
-
         init();
-
-        scramble();
-
         setDimensions();
     }
 
@@ -52,25 +46,6 @@ public class StartGame extends AppCompatActivity {
         mGridView.setNumColumns(COLUMNS);
         puzzle = ApplicationFactory.getApplicationFactory().getPuzzle();
 
-        /**
-        tileList = new String[DIMENSIONS];
-        for (int i = 0; i < DIMENSIONS; i++) {
-            tileList[i] = String.valueOf(i);
-        }*/
-    }
-
-    private void scramble() {
-        /**
-        int index;
-        String temp;
-        Random random = new Random();
-
-        for (int i = tileList.length - 1; i > 0; i--) {
-            index = random.nextInt(i + 1);
-            temp = tileList[index];
-            tileList[index] = tileList[i];
-            tileList[i] = temp;
-        }*/
     }
 
     private void setDimensions() {
@@ -115,46 +90,12 @@ public class StartGame extends AppCompatActivity {
             button.setBackground(bitmap);
             buttons.add(button);
         }
-        /**
-        for (int i = 0; i < tileList.length; i++) {
-            button = new Button(context);
-
-            if (tileList[i].equals("0"))
-                button.setBackgroundResource(R.drawable.pigeon_piece1);
-            else if (tileList[i].equals("1"))
-                button.setBackgroundResource(R.drawable.pigeon_piece2);
-            else if (tileList[i].equals("2"))
-                button.setBackgroundResource(R.drawable.pigeon_piece3);
-            else if (tileList[i].equals("3"))
-                button.setBackgroundResource(R.drawable.pigeon_piece4);
-            else if (tileList[i].equals("4"))
-                button.setBackgroundResource(R.drawable.pigeon_piece5);
-            else if (tileList[i].equals("5"))
-                button.setBackgroundResource(R.drawable.pigeon_piece6);
-            else if (tileList[i].equals("6"))
-                button.setBackgroundResource(R.drawable.pigeon_piece7);
-            else if (tileList[i].equals("7"))
-                button.setBackgroundResource(R.drawable.pigeon_piece8);
-            else if (tileList[i].equals("8"))
-                button.setBackgroundResource(R.drawable.pigeon_piece9);
-
-            buttons.add(button);
-        }*/
-
         mGridView.setAdapter(new PuzzleAdapter(buttons, mColumnWidth, mColumnHeight));
     }
 
     private  void swap(Context context, int currentPosition, int swap) {
-        /**
-        String newPosition = tileList[currentPosition + swap];
-        tileList[currentPosition + swap] = tileList[currentPosition];
-        tileList[currentPosition] = newPosition;
-         */
-
         puzzle.swapTiles(currentPosition, currentPosition + swap);
-
         display(context);
-
         if (isSolved()) Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
     }
 

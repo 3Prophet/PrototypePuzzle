@@ -6,23 +6,21 @@
     android:gravity="center"
     >
     <Button
-        android:id="@+id/play"
-        android:text="Play"
+        android:id="@+id/play_button"
+        android:text="@string/play_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="playGame"/>
+        android:layout_height="wrap_content" />
     <Button
-        android:id="@+id/add_photo"
-        android:text="Add Photo"
+        android:id="@+id/add_photos_button"
+        android:text="@string/add_photos_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="addPhoto"/>
     <Button
-        android:id="@+id/edit_existing_photos"
-        android:text="Edit Existing Photos"
+        android:id="@+id/edit_existing_photos_button"
+        android:text="@string/edit_existing_photos_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="editPhotos"/>
+        android:layout_height="wrap_content"/>
 
     <!--
     <ImageView

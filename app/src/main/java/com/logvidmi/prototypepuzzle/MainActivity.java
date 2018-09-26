@@ -2,27 +2,26 @@ package com.logvidmi.prototypepuzzle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.logvidmi.prototypepuzzle.services.ImageSplitter;
-import com.logvidmi.prototypepuzzle.setup.ApplicationFactory;
+import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 
-import java.util.ArrayList;
-
+/**
+ * Main activity of the application, where user can choose between
+ * starting the game, adding new photos and editing existing photos.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,34 +29,37 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setActionListeners();
-        /**
-       ImageView view = (ImageView) findViewById(R.id.puzzle_view);
-       view.setImageResource(R.drawable.blue_rose);
-
-
-        //Getting the scaled bitmap of the source image
-        BitmapDrawable drawable = (BitmapDrawable) view.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-
-       ApplicationFactory factory = ApplicationFactory.getApplicationFactory();
-       factory.setColumns(3);
-       factory.setRows(2);
-       ImageSplitter splitter = factory.getImageSplitter();
-       ArrayList<Bitmap> chunks =  (ArrayList<Bitmap>) splitter.splitImage(bitmap);
-       view.setImageBitmap(chunks.get(0));
-         */
+        setControllers();
     }
 
-    private void setActionListeners() {
-        Button easyButton = (Button) findViewById(R.id.add_photo);
-        easyButton.setOnClickListener(new View.OnClickListener() {
+    private void setControllers() {
+
+        Button playButton = (Button) findViewById(R.id.play_button);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent playGameIntent = new Intent(MainActivity.this, ChoseLevel.class);
+                startActivity(playGameIntent);
+            }
+        });
+
+        Button addPhotosButton = (Button) findViewById(R.id.add_photos_button);
+        addPhotosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
                 }
+            }
+        });
+
+        Button editButton = (Button) findViewById(R.id.edit_existing_photos_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editPhotosIntent = new Intent(MainActivity.this, EditPhotosActiviy.class);
+                startActivity(editPhotosIntent);
             }
         });
     }
@@ -69,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
             if (data.getExtras().get("data") != null &&
                     data.getExtras().get("data") instanceof Bitmap) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                Toast.makeText(getApplicationContext(), "Successfull " + bitmap.getByteCount(), Toast.LENGTH_SHORT).show();
+                dbHandler = new DatabaseHandler(this);
+                if (dbHandler.insertImage(bitmap)) {
+                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Not Successfull", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -95,13 +104,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void playGame(View view) {
-        Intent playGameIntent = new Intent(this, ChoseLevel.class);
-        startActivity(playGameIntent);
-    }
 
-    public void addPhotos(View view) {
-        Intent addPhotosIntent = new Intent(this, SelectPhotosSource.class);
-        startActivity(addPhotosIntent);
-    }
+
+
 }

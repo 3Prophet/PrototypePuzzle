@@ -7,6 +7,9 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter to display Puzzle in a GridView.
+ */
 public class PuzzleAdapter extends BaseAdapter {
     private ArrayList<Button> mButtons = null;
     private int mColumnWidth, mColumnHeight;
@@ -17,19 +20,31 @@ public class PuzzleAdapter extends BaseAdapter {
         mColumnHeight = columnHeight;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCount() {
         return mButtons.size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object getItem(int position) {return (Object) mButtons.get(position);}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Button button;
