@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.logvidmi.prototypepuzzle.model.IdentifiableImage;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -86,7 +88,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     public Boolean insertImage(Bitmap image) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        image.compress(Bitmap.CompressFormat.PNG, 200, stream);
         byte[] imageBytes = stream.toByteArray();
         try {
             stream.close();
@@ -102,6 +104,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_IMAGE, imageBytes);
         db.insert(TABLE_IMAGES, null, contentValues);
+    }
+
+    public ArrayList<IdentifiableImage> getIdentifiableImagesFromDatabase() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<IdentifiableImage> imageList = new ArrayList<>();
+        Bitmap bitmap = null;
+        Cursor cursor = db.rawQuery("select * from " + TABLE_IMAGES, null);
+        while (cursor.moveToNext()) {
+            byte[] imageBytes = cursor.getBlob(1);
+            bitmap = BitmapFactory.decodeByteArray(imageBytes,
+                    0, imageBytes.length);
+            long id = cursor.getLong(cursor.getColumnIndex(KEY_ID));
+
+            imageList.add(new IdentifiableImage(bitmap, id));
+        }
+        cursor.close();
+        return imageList;
     }
 
     /**
@@ -123,5 +142,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         return imageList;
+    }
+
+    /**
+     * Delete an image from the database.
+     *
+     * @param id Value of the key of an item to be deleted.
+     */
+    public void removeImage(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = KEY_ID+"=?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+        db.delete(TABLE_IMAGES, whereClause, whereArgs);
     }
 }

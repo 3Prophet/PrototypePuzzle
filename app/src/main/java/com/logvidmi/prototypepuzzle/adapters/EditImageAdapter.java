@@ -10,16 +10,17 @@ import android.support.v4.view.PagerAdapter;
 
 import com.logvidmi.prototypepuzzle.ChooseImageForPuzzle;
 import com.logvidmi.prototypepuzzle.fragments.ImageFragment;
+import com.logvidmi.prototypepuzzle.model.IdentifiableImage;
 
 import java.util.ArrayList;
 
 public class EditImageAdapter extends FragmentPagerAdapter {
 
-    private ArrayList<Bitmap> images;
+    private ArrayList<IdentifiableImage> images;
 
     private long baseId = 0;
 
-    public EditImageAdapter(FragmentManager fragmentManager, ArrayList<Bitmap> images) {
+    public EditImageAdapter(FragmentManager fragmentManager, ArrayList<IdentifiableImage> images) {
         super(fragmentManager);
         this.images = images;
     }
@@ -40,7 +41,7 @@ public class EditImageAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return ImageFragment.newInstance(images.get(position));
+        return ImageFragment.newInstance(images.get(position).getBitmap());
     }
 
     @Override
