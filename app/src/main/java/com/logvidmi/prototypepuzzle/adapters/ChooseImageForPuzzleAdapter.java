@@ -14,6 +14,7 @@ import com.logvidmi.prototypepuzzle.StartGame;
 import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 import com.logvidmi.prototypepuzzle.setup.ApplicationFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +34,7 @@ public class ChooseImageForPuzzleAdapter extends PagerAdapter {
     /**
      * @param context Activity from which adapter is called.
      */
-    public ChooseImageForPuzzleAdapter(Context context) {
+    public ChooseImageForPuzzleAdapter(Context context) throws IOException {
         this.context = context;
         DatabaseHandler dbHandler = new DatabaseHandler(context);
         imageBitmaps = dbHandler.getImagesFromDatabase();

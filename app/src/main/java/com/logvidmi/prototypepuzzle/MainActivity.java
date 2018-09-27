@@ -2,8 +2,11 @@ package com.logvidmi.prototypepuzzle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,6 +17,11 @@ import android.widget.Toast;
 
 import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Main activity of the application, where user can choose between
  * starting the game, adding new photos and editing existing photos.
@@ -21,12 +29,16 @@ import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PICK_PHOTO_CODE = 1034;
+
     private DatabaseHandler dbHandler;
+    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setControllers();
@@ -47,9 +59,15 @@ public class MainActivity extends AppCompatActivity {
         addPhotosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // Create intent for picking a photo from the gallery
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+                // So as long as the result is not null, it's safe to use the intent.
                 if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                    // Bring up gallery to select a photo
+                    startActivityForResult(intent, PICK_PHOTO_CODE);
                 }
             }
         });
@@ -67,19 +85,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            if (data.getExtras().get("data") != null &&
-                    data.getExtras().get("data") instanceof Bitmap) {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                Toast.makeText(getApplicationContext(), "Successfull " + bitmap.getByteCount(), Toast.LENGTH_SHORT).show();
-                dbHandler = new DatabaseHandler(this);
-                if (dbHandler.insertImage(bitmap)) {
-                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Not Successfull", Toast.LENGTH_SHORT).show();
-                }
+
+        if (data != null) {
+            Uri photoUri = data.getData();
+            // Do something with the photo based on Uri
+            // Load the selected image into a preview
+            dbHandler = new DatabaseHandler(this);
+            dbHandler.insertImage(photoUri);
+                Toast.makeText(getApplicationContext(), "Successfull.", Toast.LENGTH_SHORT).show();
             }
-        }
+            else  {
+                Toast.makeText(this, "Image is not saved.", Toast.LENGTH_SHORT).show();
+            }
+
+    }
+
+    private File createImageFile() throws IOException {
+        // Create image file name.
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+
     }
 
     @Override
