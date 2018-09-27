@@ -5,4 +5,7 @@
     <string name="play_button">Play</string>
     <string name="add_photos_button">Add Photos</string>
     <string name="edit_existing_photos_button">Edit Existing Photos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
