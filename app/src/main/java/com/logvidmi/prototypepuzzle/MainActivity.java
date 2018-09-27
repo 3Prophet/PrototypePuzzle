@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent playGameIntent = new Intent(MainActivity.this, ChoseLevel.class);
+                Intent playGameIntent = new Intent(MainActivity.this, ChooseImageForPuzzle.class);
                 startActivity(playGameIntent);
             }
         });

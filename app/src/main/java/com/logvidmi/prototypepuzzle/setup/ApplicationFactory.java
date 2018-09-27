@@ -18,9 +18,9 @@ public class ApplicationFactory {
 
     private static ApplicationFactory factory = null;
 
-    private int rows;
+    private final static int ROWS = 3;
 
-    private int columns;
+    private final static int COLUMNS = 3;
 
     /**
      * Image to be used in a Puzzle Game
@@ -36,24 +36,16 @@ public class ApplicationFactory {
         return factory;
     }
 
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
     public ImageSplitter getImageSplitter() {
-        return new ImageSplitter(rows, columns);
+        return new ImageSplitter(ROWS, COLUMNS);
     }
 
     public int getRows() {
-        return rows;
+        return ROWS;
     }
 
     public int getColumns() {
-        return columns;
+        return COLUMNS;
     }
 
     public int[] getPuzzleImages() {
@@ -65,7 +57,7 @@ public class ApplicationFactory {
     }
 
     public Puzzle getPuzzle() {
-        return new Puzzle(puzzleImage, rows, columns);
+        return new Puzzle(puzzleImage, ROWS, COLUMNS);
     }
 
 }
