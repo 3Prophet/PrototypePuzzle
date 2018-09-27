@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Splits an image into equal rectangular chunks. The number of chunks corresponds to rows*columns.
+ * Splits an image into equal rectangular chunks.
+ * The number of chunks corresponds to rows*columns.
  */
 public class ImageSplitter {
 
@@ -16,9 +17,9 @@ public class ImageSplitter {
 
     private int columns;
 
-    private int chunkHeight;
+    private static int chunkHeight;
 
-    private int chunkWidth;
+    private static int chunkWidth;
 
     public ImageSplitter(int rows, int columns) {
         this.rows = rows;
@@ -53,11 +54,11 @@ public class ImageSplitter {
         return chunkedImages;
     }
 
-    public int getChunkHeight() {
+    public static int getChunkHeight() {
         return chunkHeight;
     }
 
-    public int getChunkWidth() {
+    public static int getChunkWidth() {
         return chunkWidth;
     }
 }

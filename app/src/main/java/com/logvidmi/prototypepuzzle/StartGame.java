@@ -16,6 +16,9 @@ import com.logvidmi.prototypepuzzle.utils.GestureDetectGridView;
 
 import java.util.ArrayList;
 
+/**
+ * Activity where puzzle game is played.
+ */
 public class StartGame extends AppCompatActivity {
 
     private static GestureDetectGridView mGridView;
@@ -96,7 +99,8 @@ public class StartGame extends AppCompatActivity {
     private  void swap(Context context, int currentPosition, int swap) {
         puzzle.swapTiles(currentPosition, currentPosition + swap);
         display(context);
-        if (isSolved()) Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+        if (isSolved())
+            Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
     }
 
     public  void moveTiles(Context context, String direction, int position) {

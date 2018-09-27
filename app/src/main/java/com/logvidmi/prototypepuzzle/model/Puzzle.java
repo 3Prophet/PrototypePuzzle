@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A puzzle, which consists of tiles. Each tile has an index. Tiles are randomized
+ * so that the collection of indices is unordered. Puzzle is considered assembled, when
+ * by swapping pairs of tiles one makes collection ordered.
+ */
 public class Puzzle {
 
     private final int rows;
@@ -19,6 +24,14 @@ public class Puzzle {
 
     private ArrayList<Tile> randomizedTiles;
 
+    /**
+     * Puzzle is produced by cutting a bitmap image in a number of rectangular tiles and shuffling
+     * them.
+     *
+     * @param image Bitmap image for puzzle.
+     * @param rows Number of rows in the puzzle.
+     * @param columns Numner of columns in the puzzle.
+     */
     public Puzzle(Bitmap image, int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
@@ -41,6 +54,9 @@ public class Puzzle {
         return rows*columns;
     }
 
+    /**
+     * Creates puzzle from image.
+     */
     private void createPuzzleFromImage() {
         ApplicationFactory factory = ApplicationFactory.getApplicationFactory();
         ImageSplitter splitter = factory.getImageSplitter();
@@ -52,6 +68,11 @@ public class Puzzle {
         }
     }
 
+    /**
+     * Swapping two tiles with different indices.
+     * @param firstIndex
+     * @param secondIndex
+     */
     public void swapTiles(int firstIndex, int secondIndex) {
         Collections.swap(randomizedTiles, firstIndex, secondIndex);
     }
@@ -63,6 +84,11 @@ public class Puzzle {
         Collections.shuffle(shuffledIndices);
     }
 
+    /**
+     * Puzzle is assembled when the collection of tile indices is ordered.
+     *
+     * @return Boolean indicating whether the puzzle is assembled.
+     */
     public boolean isAssembled() {
         boolean isAssembled = true;
         for (int i = 0; i < randomizedTiles.size(); i++ ) {
@@ -73,6 +99,9 @@ public class Puzzle {
         return isAssembled;
     }
 
+    /**
+     * @return A list with randomized tiles.
+     */
     public ArrayList<Tile> getRandomizedTiles() {
         return randomizedTiles;
     }

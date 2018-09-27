@@ -10,6 +10,11 @@ import android.widget.GridView;
 
 import com.logvidmi.prototypepuzzle.StartGame;
 
+/**
+ * Used to detect how user would like to swap fragments in a grid view.
+ * Fragments can only be swapped by one position either in horizontal or vertical direction
+ * in the corresponding GridView.
+ */
 public class GestureDetectGridView extends GridView {
     private GestureDetector gDetector;
     private boolean mFlingConfirmed = false;
@@ -35,7 +40,7 @@ public class GestureDetectGridView extends GridView {
         init(context);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
+    //@TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr,
                                  int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

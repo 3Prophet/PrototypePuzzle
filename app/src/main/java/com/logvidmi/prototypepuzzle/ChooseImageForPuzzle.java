@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Activity, where photos for playing Puzzle game can be selected.
+ * Once photo is clicked the puzzle is produced and presented.
  */
 public class ChooseImageForPuzzle extends AppCompatActivity {
 

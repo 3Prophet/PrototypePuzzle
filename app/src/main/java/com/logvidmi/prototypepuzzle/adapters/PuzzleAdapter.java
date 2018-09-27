@@ -5,6 +5,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
+import com.logvidmi.prototypepuzzle.services.ImageSplitter;
+import com.logvidmi.prototypepuzzle.setup.ApplicationFactory;
+
 import java.util.ArrayList;
 
 /**
@@ -57,6 +60,10 @@ public class PuzzleAdapter extends BaseAdapter {
 
         android.widget.AbsListView.LayoutParams params =
                 new android.widget.AbsListView.LayoutParams(mColumnWidth, mColumnHeight);
+
+        //android.widget.AbsListView.LayoutParams params =
+        //        new android.widget.AbsListView.LayoutParams(ImageSplitter.getChunkWidth()/ApplicationFactory.getApplicationFactory().getRows(),
+        //                ImageSplitter.getChunkHeight()/ ApplicationFactory.getApplicationFactory().getColumns());
         button.setLayoutParams(params);
 
         return button;

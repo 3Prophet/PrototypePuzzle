@@ -25,10 +25,11 @@ import java.util.ArrayList;
 /**
  * Database handler to create an application database, update it upon the version change and
  * insert/read images to/from it.
+ * The database contains only ids and uris of images.
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "imagesDb";
     public static final String TABLE_IMAGES = "images";
 
@@ -45,7 +46,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private Context activity;
 
     /**
-     *
      * @param context Activity, from where the database is called.
      */
     public DatabaseHandler(Context context) {
@@ -92,12 +92,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return true;
     }
 
-
+    /**
+     * Gets a list of identifiable images {@see com.logvidmi.prototypepuzzle.model.IdentifiableImage}
+     */
     public ArrayList<IdentifiableImage> getIdentifiableImagesFromDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<IdentifiableImage> imageList = new ArrayList<>();
         Bitmap bitmap = null;
         Cursor cursor = db.rawQuery("select * from " + TABLE_IMAGES, null);
+        getPermission();
         while (cursor.moveToNext()) {
             String imageUri = cursor.getString(cursor.getColumnIndex(KEY_IMAGEURI));
             try {
@@ -114,7 +117,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Retrieves all images from the application database.
+     * For all the uris in the database return the list of corresponding bitmaps.
      *
      * @return List of bitmaps.
      */
@@ -124,27 +127,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Bitmap bitmap = null;
         Cursor cursor = db.rawQuery("select * from " + TABLE_IMAGES, null);
         int count = cursor.getCount();
+        getPermission();
         while (cursor.moveToNext()) {
             int index = cursor.getColumnIndex(KEY_IMAGEURI);
             String imageUri = cursor.getString(index);
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        (Activity) activity,
-                        PERMISSIONS_STORAGE,
-                        REQUEST_EXTERNAL_STORAGE
-                );
-            }
             try {
-
-                    bitmap =  MediaStore.Images.Media.getBitmap(activity.getContentResolver(),
+                bitmap =  MediaStore.Images.Media.getBitmap(activity.getContentResolver(),
                             Uri.parse(imageUri));
-                    imageList.add(bitmap);// Permission is not granted
-
-
+                imageList.add(bitmap);// Permission is not granted
             } catch (IOException e) {
             }
-
         }
         cursor.close();
         return imageList;
@@ -161,5 +153,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String[] whereArgs = new String[] {idString};
         String whereClause = KEY_ID + "=?";
         db.delete(TABLE_IMAGES, whereClause, whereArgs);
+    }
+
+    /**
+     * Obtains dynamic permission to read from external storage for retrieving images.
+     */
+    private void getPermission() {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity) activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 }

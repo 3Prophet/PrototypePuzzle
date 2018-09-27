@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Application Factory Singleton.
+ * Application Factory Singleton with different resources, which can be used
+ * by the application.
  */
 public class ApplicationFactory {
 
@@ -29,6 +30,9 @@ public class ApplicationFactory {
 
     private ApplicationFactory() {}
 
+    /**
+     * @return Application factory singleton.
+     */
     public static ApplicationFactory getApplicationFactory(){
         if (factory == null) {
             factory = new ApplicationFactory();
@@ -36,26 +40,37 @@ public class ApplicationFactory {
         return factory;
     }
 
+    /**
+     * @return Image Splitter to split a bitmap into chunks.
+     */
     public ImageSplitter getImageSplitter() {
         return new ImageSplitter(ROWS, COLUMNS);
     }
 
+    /**
+     * @return Number of rows in puzzle.
+     */
     public int getRows() {
         return ROWS;
     }
 
+    /**
+     * @return Number of columns in puzzle.
+     */
     public int getColumns() {
         return COLUMNS;
     }
 
-    public int[] getPuzzleImages() {
-        return  new int[] {R.drawable.blue_rose, R.drawable.red_heart};
-    }
-
+    /**
+     * Used by the application to set the bitmap to be used to create a puzzle.
+     */
     public void setBitmapForPuzzleGame(Bitmap puzzleImage) {
         this.puzzleImage = puzzleImage;
     }
 
+    /**
+     * Creates puzzle with certain number of rows and columns.
+     */
     public Puzzle getPuzzle() {
         return new Puzzle(puzzleImage, ROWS, COLUMNS);
     }

@@ -24,27 +24,8 @@ public class Tile {
         this.tileImage = tileImage;
     }
 
-    public boolean isCorrectPosition(int index) {
-        return this.index == index;
-    }
-
     public Bitmap getTileImage() {
         return tileImage;
-    }
-
-    public static void setTileWidth(int tileWidth) {
-        Tile.tileWidth = tileWidth;
-    }
-
-    public static void setTileHeight(int tileHeight) {
-        Tile.tileHeight = tileHeight;
-    }
-    public static int getTileWidth() {
-        return tileWidth;
-    }
-
-    public static int getTileHeight() {
-        return tileHeight;
     }
 
     public int getIndex() {

@@ -15,7 +15,7 @@ import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 import java.util.ArrayList;
 
 /**
- * Activity where photos can be selected and edited.
+ * Activity where photos can be selected and deleted.
  */
 public class EditPhotosActiviy extends FragmentActivity {
 
@@ -40,6 +40,9 @@ public class EditPhotosActiviy extends FragmentActivity {
         setControllers();
     }
 
+    /**
+     * A controller to delete corresponding fragment and its entry in the database.
+     */
     private void setControllers() {
         Button deleteButton = (Button) findViewById(R.id.delete_image_button);
             deleteButton.setOnClickListener(new View.OnClickListener() {

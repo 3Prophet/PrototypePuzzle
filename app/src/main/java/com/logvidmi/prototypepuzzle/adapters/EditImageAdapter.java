@@ -14,17 +14,30 @@ import com.logvidmi.prototypepuzzle.model.IdentifiableImage;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment adapter, which is used by a view pager to display images.
+ * Upon deletion the image is not shown by the adapter.
+ */
 public class EditImageAdapter extends FragmentPagerAdapter {
 
     private ArrayList<IdentifiableImage> images;
 
     private long baseId = 0;
 
+    /**
+     * Constructor of the fragment adapter.
+     *
+     * @param fragmentManager
+     * @param images The list of images to be displayed
+     */
     public EditImageAdapter(FragmentManager fragmentManager, ArrayList<IdentifiableImage> images) {
         super(fragmentManager);
         this.images = images;
     }
 
+    /**
+     * @return Number of fragements.
+     */
     @Override
     public int getCount() {
         return images.size();
