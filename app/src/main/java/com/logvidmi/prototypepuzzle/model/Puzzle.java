@@ -1,6 +1,7 @@
 package com.logvidmi.prototypepuzzle.model;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.logvidmi.prototypepuzzle.services.ImageSplitter;
 import com.logvidmi.prototypepuzzle.setup.ApplicationFactory;
@@ -19,7 +20,7 @@ public class Puzzle {
     private final int rows;
     private final int columns;
     private final Bitmap image;
-    private ArrayList<Integer> shuffledIndices;
+    protected ArrayList<Integer> shuffledIndices;
     private ArrayList<Tile> solution;
 
     private ArrayList<Tile> randomizedTiles;
@@ -104,5 +105,13 @@ public class Puzzle {
      */
     public ArrayList<Tile> getRandomizedTiles() {
         return randomizedTiles;
+    }
+
+    public int getBitmapWidth() {
+        return image.getWidth();
+    }
+
+    public int getBitmapHeight() {
+        return image.getHeight();
     }
 }

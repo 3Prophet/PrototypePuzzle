@@ -6,8 +6,9 @@ import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
 
 /**
- * Class which encapsulates screen dimensions as total widht,
- * height and status bar height in pixels for a given context.
+ * Class which encapsulates screen dimensions as total width,
+ * height and status bar height in pixels for a given context and
+ * is used to resize Bitmaps to match screen size.
  */
 public class ScreenUtils {
 
@@ -49,8 +50,7 @@ public class ScreenUtils {
     }
 
     /**
-     * Returns bitmap rescaled to fit the size of android device screen
-     *
+     * Returns bitmap rescaled to fit the size of android device screen.
      *
      * @param bitmap Original bitmap.
      * @return Rescaled bitmap.
@@ -60,22 +60,21 @@ public class ScreenUtils {
         // Getting bitmap dimensions
         int bitmapWidth = bitmap.getWidth();
         int bitmapHeight = bitmap.getHeight();
-        float bitmapAspectRatio = (float) bitmapHeight / bitmapWidth;
+        float bitmapAspectRatio = (float) bitmapWidth / bitmapHeight;
 
-        //
         float screenAspectRatio = (float) screenWidth / (screenHeight - statusBarHeight);
         float scale = 1;
         //
-        if (bitmapAspectRatio < screenAspectRatio) {
+        if (bitmapAspectRatio > screenAspectRatio) {
             scale =(float) screenWidth / bitmapWidth;
             resizedBitmap = Bitmap.createScaledBitmap(bitmap,
                     screenWidth,
-                    (int) (bitmapHeight * scale / bitmapAspectRatio), true);
+                    (int) (screenWidth / bitmapAspectRatio), true);
         } else {
             scale = ((float) (screenHeight-statusBarHeight) )/ bitmapHeight;
             resizedBitmap = Bitmap.createScaledBitmap(bitmap,
-                    (int)(bitmapWidth * scale * bitmapAspectRatio),
-                    bitmapHeight, true);
+                    (int)(screenHeight * bitmapAspectRatio),
+                    screenHeight, true);
         }
         return resizedBitmap;
     }

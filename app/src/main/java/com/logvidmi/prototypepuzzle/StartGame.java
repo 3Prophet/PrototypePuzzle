@@ -48,7 +48,6 @@ public class StartGame extends AppCompatActivity {
         mGridView = (GestureDetectGridView) findViewById(R.id.grid);
         mGridView.setNumColumns(COLUMNS);
         puzzle = ApplicationFactory.getApplicationFactory().getPuzzle(this);
-
     }
 
     private void setDimensions() {
@@ -57,30 +56,11 @@ public class StartGame extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 mGridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                int displayWidth = mGridView.getMeasuredWidth();
-                int displayHeight = mGridView.getMeasuredHeight();
-
-                int statusbarHeight = getStatusBarHeight(getApplicationContext());
-                int requiredHeight = displayHeight - statusbarHeight;
-
-                mColumnWidth = displayWidth / COLUMNS;
-                mColumnHeight = requiredHeight / COLUMNS;
-
+                mColumnWidth = puzzle.getBitmapWidth() / COLUMNS;
+                mColumnHeight = puzzle.getBitmapHeight() / COLUMNS;
                 display(getApplicationContext());
             }
         });
-    }
-
-    private int getStatusBarHeight(Context context) {
-        int result = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen",
-                "android");
-
-        if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
-        }
-
-        return result;
     }
 
     private  void display(Context context) {

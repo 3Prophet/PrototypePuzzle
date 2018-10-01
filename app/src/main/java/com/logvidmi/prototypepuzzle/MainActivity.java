@@ -106,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 ContentResolver resolver = getContentResolver();
                 resolver.takePersistableUriPermission(photoUri, takeFlags);
             }
-            // Do something with the photo based on Uri
-            // Load the selected image into a preview
             dbHandler = new DatabaseHandler(this);
             dbHandler.insertImage(photoUri);
             Toast.makeText(getApplicationContext(), "Successfull.", Toast.LENGTH_SHORT).show();
