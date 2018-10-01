@@ -1,8 +1,10 @@
 package com.logvidmi.prototypepuzzle;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -59,16 +61,20 @@ public class MainActivity extends AppCompatActivity {
         addPhotosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create intent for picking a photo from the gallery
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    // Bring up gallery to select a photo
-                    startActivityForResult(intent, PICK_PHOTO_CODE);
+                Intent intent;
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                }else{
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
                 }
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_PHOTO_CODE);
+
             }
         });
 
@@ -95,37 +101,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (data != null) {
             Uri photoUri = data.getData();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                final int takeFlags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                ContentResolver resolver = getContentResolver();
+                resolver.takePersistableUriPermission(photoUri, takeFlags);
+            }
             // Do something with the photo based on Uri
             // Load the selected image into a preview
             dbHandler = new DatabaseHandler(this);
             dbHandler.insertImage(photoUri);
-                Toast.makeText(getApplicationContext(), "Successfull.", Toast.LENGTH_SHORT).show();
-            }
-            else  {
-                Toast.makeText(this, "Image is not saved.", Toast.LENGTH_SHORT).show();
-            }
-
-    }
-
-    /**
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            Toast.makeText(getApplicationContext(), "Successfull.", Toast.LENGTH_SHORT).show();
         }
-        return super.onOptionsItemSelected(item);
-    }*/
+        else  {
+            Toast.makeText(this, "Image is not saved.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }

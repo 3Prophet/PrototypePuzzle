@@ -104,6 +104,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             String imageUri = cursor.getString(cursor.getColumnIndex(KEY_IMAGEURI));
             try {
+                getPermission();
                 bitmap =  MediaStore.Images.Media.getBitmap(activity.getContentResolver(),
                         Uri.parse(imageUri));
                 long id = cursor.getLong(cursor.getColumnIndex(KEY_ID));
@@ -132,6 +133,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             int index = cursor.getColumnIndex(KEY_IMAGEURI);
             String imageUri = cursor.getString(index);
             try {
+                getPermission();
                 bitmap =  MediaStore.Images.Media.getBitmap(activity.getContentResolver(),
                             Uri.parse(imageUri));
                 imageList.add(bitmap);// Permission is not granted
