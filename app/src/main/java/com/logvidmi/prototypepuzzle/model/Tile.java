@@ -22,6 +22,7 @@ public class Tile {
      */
     public Tile(Bitmap tileImage, int index) {
         this.tileImage = tileImage;
+        this.index = index;
     }
 
     public Bitmap getTileImage() {
