@@ -7,6 +7,7 @@ import com.logvidmi.prototypepuzzle.R;
 import com.logvidmi.prototypepuzzle.model.Puzzle;
 import com.logvidmi.prototypepuzzle.services.DatabaseHandler;
 import com.logvidmi.prototypepuzzle.services.ImageSplitter;
+import com.logvidmi.prototypepuzzle.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,8 +72,9 @@ public class ApplicationFactory {
     /**
      * Creates puzzle with certain number of rows and columns.
      */
-    public Puzzle getPuzzle() {
-        return new Puzzle(puzzleImage, ROWS, COLUMNS);
+    public Puzzle getPuzzle(Context context) {
+        ScreenUtils utils = new ScreenUtils(context);
+        return new Puzzle(utils.resizeBitmap(puzzleImage), ROWS, COLUMNS);
     }
 
 }

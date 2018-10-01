@@ -47,7 +47,7 @@ public class StartGame extends AppCompatActivity {
     private void init() {
         mGridView = (GestureDetectGridView) findViewById(R.id.grid);
         mGridView.setNumColumns(COLUMNS);
-        puzzle = ApplicationFactory.getApplicationFactory().getPuzzle();
+        puzzle = ApplicationFactory.getApplicationFactory().getPuzzle(this);
 
     }
 
